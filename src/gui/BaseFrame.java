@@ -15,7 +15,7 @@ public abstract class BaseFrame extends JFrame {
 
     private void init(String title) {
         setTitle(title);
-        setSize(800, 600);
+        setSize(500, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         setResizable(false);
