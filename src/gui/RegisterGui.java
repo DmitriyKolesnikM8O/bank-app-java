@@ -8,18 +8,14 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-/*
- * This gui will allow user to login or launch the register gui.
- * This extends from BaseFrame which means we will need to define our own addGuiComponents() method.
- */
-public class LoginGui extends BaseFrame{
-    public LoginGui() {
-        super("Login");
+public class RegisterGui extends BaseFrame {
+    public RegisterGui() {
+        super("Register");
     }
 
     @Override
     protected void addGuiComponents() {
-        JLabel bankingAppLabel = new JLabel("Banking Application Login");
+        JLabel bankingAppLabel = new JLabel("Banking Application Register");
         bankingAppLabel.setBounds(0, 20, super.getWidth(), 40);
         bankingAppLabel.setHorizontalAlignment(JLabel.CENTER);
         bankingAppLabel.setFont(new Font("Arial", Font.BOLD, 32));
@@ -50,17 +46,29 @@ public class LoginGui extends BaseFrame{
         
         add(passportField);
 
-        JButton LoginButton = new JButton("Login");
-        LoginButton.setBounds(20, 400, getWidth() - 50, 40);
-        LoginButton.setFont(new Font("Arial", Font.PLAIN, 28));
+        JLabel passportLabelRepeat = new JLabel("Re-type password: ");
+        passportLabelRepeat.setBounds(20, 300, getWidth() - 30, 24);
+        passportLabelRepeat.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        add(passportLabelRepeat);
+
+        JPasswordField passportFieldRepeat = new JPasswordField();
+        passportFieldRepeat.setBounds(20, 330, getWidth() - 50, 40);
+        passportFieldRepeat.setFont(new Font("Arial", Font.PLAIN, 28));
         
-        add(LoginButton);
+        add(passportFieldRepeat);
+
+        JButton registerButton = new JButton("Register");
+        registerButton.setBounds(20, 400, getWidth() - 50, 40);
+        registerButton.setFont(new Font("Arial", Font.PLAIN, 28));
+        
+        add(registerButton);
 
         //TODO: maybe button
-        JLabel registeredLabel = new JLabel("<html><a href=\"#\">Don`t have account? Registered</a></html>");
-        registeredLabel.setBounds(0, 450, getWidth() - 10, 30);
-        registeredLabel.setFont(new Font("Arial", Font.PLAIN, 28));
-        registeredLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(registeredLabel);
+        JLabel loginLabel = new JLabel("<html><a href=\"#\">Have account? Sign in</a></html>");
+        loginLabel.setBounds(0, 450, getWidth() - 10, 30);
+        loginLabel.setFont(new Font("Arial", Font.PLAIN, 28));
+        loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(loginLabel);
     }
 }
