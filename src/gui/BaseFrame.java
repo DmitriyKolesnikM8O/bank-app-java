@@ -2,6 +2,8 @@ package gui;
 
 import javax.swing.JFrame;
 
+import bd_objs.User;
+
 
 /*
  * Creating an abstract class helps us setup the blueprint that our GUIs will follow, for example
@@ -9,7 +11,14 @@ import javax.swing.JFrame;
  * which will be unique to each subclass
  */
 public abstract class BaseFrame extends JFrame {
+
+    protected User user;
+
     public BaseFrame(String title) {
+        init(title);
+    }
+    public BaseFrame(String title, User user) {
+        this.user = user;
         init(title);
     }
 
