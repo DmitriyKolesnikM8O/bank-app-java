@@ -3,6 +3,8 @@ package gui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -81,11 +83,19 @@ public class LoginGui extends BaseFrame{
         
         add(LoginButton);
 
-        //TODO: maybe button
         JLabel registeredLabel = new JLabel("<html><a href=\"#\">Don`t have account? Registered</a></html>");
         registeredLabel.setBounds(0, 450, getWidth() - 10, 30);
         registeredLabel.setFont(new Font("Times New Roman", Font.PLAIN, 28));
         registeredLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        registeredLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                LoginGui.this.dispose();
+                new RegisterGui().setVisible(true);
+            }
+        });
+
         add(registeredLabel);
     }
 }

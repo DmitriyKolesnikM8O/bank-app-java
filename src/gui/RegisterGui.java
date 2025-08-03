@@ -1,12 +1,20 @@
 package gui;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import bd_objs.MyJDBC;
+import bd_objs.User;
 
 
 /*
@@ -43,13 +51,14 @@ public class RegisterGui extends BaseFrame {
         passportLabel.setBounds(20, 200, getWidth() - 30, 24);
         passportLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
+
         add(passportLabel);
 
-        JPasswordField passportField = new JPasswordField();
-        passportField.setBounds(20, 230, getWidth() - 50, 40);
-        passportField.setFont(new Font("Times New Roman", Font.PLAIN, 28));
+        JPasswordField passwortField = new JPasswordField();
+        passwortField.setBounds(20, 230, getWidth() - 50, 40);
+        passwortField.setFont(new Font("Times New Roman", Font.PLAIN, 28));
         
-        add(passportField);
+        add(passwortField);
 
         JLabel passportLabelRepeat = new JLabel("Re-type password: ");
         passportLabelRepeat.setBounds(20, 300, getWidth() - 30, 24);
@@ -57,23 +66,69 @@ public class RegisterGui extends BaseFrame {
 
         add(passportLabelRepeat);
 
-        JPasswordField passportFieldRepeat = new JPasswordField();
-        passportFieldRepeat.setBounds(20, 330, getWidth() - 50, 40);
-        passportFieldRepeat.setFont(new Font("Times New Roman", Font.PLAIN, 28));
+        JPasswordField passwortFieldRepeat = new JPasswordField();
+        passwortFieldRepeat.setBounds(20, 330, getWidth() - 50, 40);
+        passwortFieldRepeat.setFont(new Font("Times New Roman", Font.PLAIN, 28));
         
-        add(passportFieldRepeat);
+        add(passwortFieldRepeat);
 
         JButton registerButton = new JButton("Register");
         registerButton.setBounds(20, 400, getWidth() - 50, 40);
         registerButton.setFont(new Font("Times New Roman", Font.PLAIN, 28));
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = String.valueOf(passwortField.getPassword());
+                String passwordRepeat = String.valueOf(passwortFieldRepeat.getPassword());
+
+                boolean isValid = validateUserInput(username, password, passwordRepeat);
+
+                if (isValid) {
+                    if (MyJDBC.register(username, password)) {
+                        RegisterGui.this.dispose();
+    
+                        LoginGui loginGui = new LoginGui();
+                        loginGui.setVisible(true);
+                        JOptionPane.showMessageDialog(loginGui, "Register Success!");
+                    } else {
+                        JOptionPane.showMessageDialog(RegisterGui.this, "User already exist");
+                    }
+      
+                } else {
+                    JOptionPane.showMessageDialog(RegisterGui.this, "Register failed...");
+                } 
+            }
+        });
         
         add(registerButton);
 
-        //TODO: maybe button
+        
         JLabel loginLabel = new JLabel("<html><a href=\"#\">Have account? Sign in</a></html>");
         loginLabel.setBounds(0, 450, getWidth() - 10, 30);
         loginLabel.setFont(new Font("Times New Roman", Font.PLAIN, 28));
         loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        loginLabel.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                RegisterGui.this.dispose();
+                new LoginGui().setVisible(true);
+            }
+        });
+
         add(loginLabel);
+    }
+
+    private boolean validateUserInput(String username, String password, String passwordRepeat) {
+        if (username.length() == 0 || password.length() == 0) {
+            return false;
+        }
+        if (!password.equals(passwordRepeat)) {
+            return false;
+        }
+
+        return true;
     }
 }
