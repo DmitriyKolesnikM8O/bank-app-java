@@ -1,12 +1,18 @@
 package gui;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import bd_objs.MyJDBC;
+import bd_objs.User;
 
 /*
  * This gui will allow user to login or launch the register gui.
@@ -53,6 +59,25 @@ public class LoginGui extends BaseFrame{
         JButton LoginButton = new JButton("Login");
         LoginButton.setBounds(20, 400, getWidth() - 50, 40);
         LoginButton.setFont(new Font("Times New Roman", Font.PLAIN, 28));
+        LoginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = String.valueOf(passportField.getPassword());
+
+                User user = MyJDBC.validateLogin(username, password);
+                if (user != null) {
+                    LoginGui.this.dispose();
+
+                    BankingAppGui bankingAppGui = new BankingAppGui(user);
+                    bankingAppGui.setVisible(true);
+
+                    JOptionPane.showMessageDialog(bankingAppGui, "Login Successful!");
+                } else {
+                    JOptionPane.showMessageDialog(LoginGui.this, "Login failed...");
+                }
+            }
+        });
         
         add(LoginButton);
 

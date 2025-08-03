@@ -17,6 +17,7 @@ public abstract class BaseFrame extends JFrame {
     public BaseFrame(String title) {
         init(title);
     }
+    
     public BaseFrame(String title, User user) {
         this.user = user;
         init(title);
